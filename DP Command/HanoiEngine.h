@@ -6,7 +6,7 @@
 
 class HanoiEngine {
 public:
-    HanoiEngine();
+    HanoiEngine(int aLevels = 5);
     ~HanoiEngine() {}
 
     // Display the towers with the discs
@@ -28,4 +28,3 @@ private:
     int iMoves;
     std::deque<int> iTowers[3];
 };
-

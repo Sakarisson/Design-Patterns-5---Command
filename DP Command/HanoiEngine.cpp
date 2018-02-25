@@ -1,7 +1,7 @@
 #include "HanoiEngine.h"
 
-HanoiEngine::HanoiEngine() {
-
+HanoiEngine::HanoiEngine(int aLevels) {
+    iDiscs = aLevels;
 }
 
 void HanoiEngine::show(std::ostream & aStrm) {
