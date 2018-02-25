@@ -1,6 +1,7 @@
 #include "GameInterface.h"
 #include "MoveCommand.h"
 
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -93,7 +94,19 @@ void GameInterface::tick() {
 }
 
 void GameInterface::replay() {
-
+    std::ifstream saveFile("Hanoi.log");
+    if (!saveFile.good()) {
+        lastMenuResult = "Could not open save file";
+        return;
+    }
+    // Implied else
+    _commandManager->reset();
+    _hanoiEngine->reset();
+    int from, to;
+    while (saveFile >> from >> to) {
+        std::unique_ptr<MoveCommand> readMove = std::make_unique<MoveCommand>(from, to, _hanoiEngine.get());
+        _commandManager->storeAndExecute(std::move(readMove));
+    }
 }
 
 void GameInterface::move() {
