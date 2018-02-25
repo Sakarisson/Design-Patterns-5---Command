@@ -14,6 +14,10 @@ HanoiEngine::HanoiEngine(int aLevels) {
 void HanoiEngine::show(std::ostream& aStrm) {
     int minWidth = 2;
     int spaceBetweenTowers = 2;
+    char blankCharacter = ' ';
+    char diskCharacter = '=';
+    char towerCharacter = '|';
+    char separatingCharacter = '#';
     for (int i = iDiscs; i > 0; i--) {
         int towerNumber = 0;
         for (auto tower : iTowers) {
@@ -23,20 +27,20 @@ void HanoiEngine::show(std::ostream& aStrm) {
                 int halfDiskSize = tower.at(i - 1) + minWidth;
                 int blankSpace = (maxDiskWidth - halfDiskSize) + 1;
                 aStrm <<
-                    std::setfill(' ') << std::setw(blankSpace) << "" <<
-                    std::setfill('=') << std::setw(halfDiskSize) << "" <<
-                    "||" <<
-                    std::setfill('=') << std::setw(halfDiskSize) << "" <<
-                    std::setfill(' ') << std::setw(blankSpace) << "";
+                    std::setfill(blankCharacter) << std::setw(blankSpace) << "" <<
+                    std::setfill(diskCharacter) << std::setw(halfDiskSize) << "" <<
+                    towerCharacter << towerCharacter <<
+                    std::setfill(diskCharacter) << std::setw(halfDiskSize) << "" <<
+                    std::setfill(blankCharacter) << std::setw(blankSpace) << "";
             }
             else {
                 aStrm <<
-                    std::setfill(' ') << std::setw(iDiscs + minWidth + 1) << "" <<
-                    "||" <<
-                    std::setfill(' ') << std::setw(iDiscs + minWidth + 1) << "";
+                    std::setfill(blankCharacter) << std::setw(iDiscs + minWidth + 1) << "" <<
+                    towerCharacter << towerCharacter <<
+                    std::setfill(blankCharacter) << std::setw(iDiscs + minWidth + 1) << "";
             }
             if (towerNumber < iTowers->size()) {
-                aStrm << "#";
+                aStrm << separatingCharacter;
             }
         }
         aStrm << endl;
