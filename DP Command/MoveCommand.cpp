@@ -1,7 +1,9 @@
 #include "MoveCommand.h"
 
-MoveCommand::MoveCommand(HanoiEngine* hanoiEngine) {
+MoveCommand::MoveCommand(int from, int to, HanoiEngine* hanoiEngine) {
     _hanoiEngine = hanoiEngine;
+    _from = from;
+    _to = to;
 }
 
 MoveCommand::~MoveCommand() {
@@ -9,9 +11,9 @@ MoveCommand::~MoveCommand() {
 }
 
 void MoveCommand::execute() {
-
+    _hanoiEngine->move(_from, _to);
 }
 
 void MoveCommand::undo() {
-
+    _hanoiEngine->move(_to, _from);
 }

@@ -4,7 +4,7 @@
 
 class MoveCommand : public Command {
 public:
-    MoveCommand(HanoiEngine*);
+    MoveCommand(int, int, HanoiEngine*);
     ~MoveCommand();
 
     void execute() override;
@@ -12,5 +12,7 @@ public:
     void undo() override;
 
 private:
+    int _from;
+    int _to;
     HanoiEngine* _hanoiEngine;
 };
