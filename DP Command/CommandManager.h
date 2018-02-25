@@ -9,7 +9,7 @@ class CommandManager {
 public:
     CommandManager();
     ~CommandManager();
-    void storeAndExecute(std::unique_ptr<Command>);
+    void storeAndExecute(std::unique_ptr<Command>, bool log = true); // don't log replay sequence
     bool undoLast();
     bool redo();
 private:

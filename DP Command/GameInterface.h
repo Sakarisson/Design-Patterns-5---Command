@@ -27,4 +27,5 @@ private:
     std::unique_ptr<CommandManager> _commandManager;
     std::string lastMenuResult;
     bool done;
+    bool canReplay;
 };

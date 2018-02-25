@@ -15,6 +15,7 @@ GameInterface::GameInterface() {
     _commandManager = std::make_unique<CommandManager>();
     lastMenuResult = "";
     done = false;
+    canReplay = true;
 }
 
 GameInterface::~GameInterface() {
@@ -32,8 +33,10 @@ void GameInterface::showGame() {
 }
 
 void GameInterface::showMenu() {
+    if (canReplay) {
+        cout << "1. Replay last game" << endl;
+    }
     cout <<
-        "1. Replay last game" << endl <<
         "2. Move" << endl <<
         "3. Undo" << endl <<
         "4. Redo" << endl <<
@@ -92,21 +95,43 @@ void GameInterface::tick() {
     }
     getchar();
     system("cls");
+    canReplay = false;
 }
 
 void GameInterface::replay() {
+    if (!canReplay) {
+        lastMenuResult = "You can't replay anymore...";
+        return;
+    }
     std::ifstream saveFile("Hanoi.log");
     if (!saveFile.good()) {
         lastMenuResult = "Could not open save file";
         return;
     }
     // Implied else
-    //_commandManager->reset();
     _hanoiEngine->reset();
-    int from, to;
-    while (saveFile >> from >> to) {
-        std::unique_ptr<MoveCommand> readMove = std::make_unique<MoveCommand>(from, to, _hanoiEngine.get());
-        _commandManager->storeAndExecute(std::move(readMove));
+    std::string commandType;
+    while (saveFile >> commandType) {
+        std::unique_ptr<Command> command;
+        if (commandType == "move") {
+            int from, to;
+            saveFile >> from >> to;
+            command = std::make_unique<MoveCommand>(from, to, _hanoiEngine.get());
+        }
+        else if (commandType == "reset") {
+            int discSize;
+            saveFile >> discSize;
+            command = std::make_unique<ResetCommand>(discSize, _hanoiEngine.get());
+        }
+        else if (commandType == "undo") {
+            _commandManager->undoLast();
+        }
+        else if (commandType == "redo") {
+            _commandManager->redo();
+        }
+        if (command != nullptr) {
+            _commandManager->storeAndExecute(std::move(command), false);
+        }
     }
 }
 

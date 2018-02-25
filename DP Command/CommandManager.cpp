@@ -17,10 +17,12 @@ CommandManager::~CommandManager() {
     saveFile.close();
 }
 
-void CommandManager::storeAndExecute(std::unique_ptr<Command> command) {
+void CommandManager::storeAndExecute(std::unique_ptr<Command> command, bool log) {
     if (command != nullptr) {
         command->execute();
-        this->logChange(command->toString());
+        if (log) {
+            this->logChange(command->toString());
+        }
         // If currentIndex does not correspond with commands issued length, it means that
         // the user has undone something, and everything from this point will need to be deleted
         while (_currentIndex < _commandsIssued.size()) {
@@ -35,6 +37,7 @@ bool CommandManager::undoLast() {
     if (_currentIndex > 0 && _commandsIssued[_currentIndex - 1]->undoable()) {
         _currentIndex--;
         _commandsIssued[_currentIndex]->undo();
+        this->logChange("undo");
         return true;
     }
     // Implied else
@@ -49,7 +52,7 @@ void CommandManager::logChange(std::string change) {
     std::ofstream logFile;
     logFile.open("Hanoi.log");
     logFile <<
-        logContents << std::endl <<
+        logContents <<
         change << std::endl;
     logFile.close();
 }
@@ -58,6 +61,7 @@ bool CommandManager::redo() {
     if (_currentIndex < _commandsIssued.size()) { // If there exist commands past _currentIndex
         _commandsIssued[_currentIndex]->execute();
         _currentIndex++;
+        this->logChange("redo");
         return true;
     }
     // Implied else
