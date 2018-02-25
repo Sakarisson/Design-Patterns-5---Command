@@ -1,5 +1,6 @@
 #include "GameInterface.h"
 #include "MoveCommand.h"
+#include "ResetCommand.h"
 
 #include <fstream>
 #include <iostream>
@@ -100,7 +101,7 @@ void GameInterface::replay() {
         return;
     }
     // Implied else
-    _commandManager->reset();
+    //_commandManager->reset();
     _hanoiEngine->reset();
     int from, to;
     while (saveFile >> from >> to) {
@@ -153,7 +154,7 @@ void GameInterface::reset() {
         return;
     }
     // Implied else
-    _commandManager->reset();
-    _hanoiEngine->reset(discNumber);
+    std::unique_ptr<ResetCommand> resetCommand = std::make_unique<ResetCommand>(discNumber, _hanoiEngine.get());
+    _commandManager->storeAndExecute(std::move(resetCommand));
     lastMenuResult = "New game started with " + std::to_string(discNumber) + " discs";
 }

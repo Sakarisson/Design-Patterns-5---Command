@@ -19,5 +19,5 @@ void MoveCommand::undo() {
 }
 
 std::string MoveCommand::toString() {
-    return std::to_string(_from) + " " + std::to_string(_to);
+    return "move " + std::to_string(_from) + " " + std::to_string(_to);
 }
