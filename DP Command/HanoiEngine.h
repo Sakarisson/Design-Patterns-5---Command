@@ -26,4 +26,5 @@ private:
     int iDiscs;
     int iMoves;
     std::deque<int> iTowers[3];
+    void addDiscs();
 };

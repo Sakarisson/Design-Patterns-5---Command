@@ -6,9 +6,7 @@ using std::endl;
 
 HanoiEngine::HanoiEngine(int aLevels) {
     iDiscs = aLevels;
-    for (int i = iDiscs; i > 0; i--) {
-        iTowers[T1].push_back(i);
-    }
+    this->addDiscs();
 }
 
 void HanoiEngine::show(std::ostream& aStrm) {
@@ -62,9 +60,17 @@ bool HanoiEngine::move(int aFrom, int aTo) {
 }
 
 void HanoiEngine::reset(int aDiscs) {
-
+    iTowers->clear();
+    iDiscs = aDiscs;
+    this->addDiscs();
 }
 
 bool HanoiEngine::isDone() {
-    return false;
+    return iTowers[T1].empty() && iTowers[T2].empty();
+}
+
+void HanoiEngine::addDiscs() {
+    for (int i = iDiscs; i > 0; i--) {
+        iTowers[T1].push_back(i);
+    }
 }

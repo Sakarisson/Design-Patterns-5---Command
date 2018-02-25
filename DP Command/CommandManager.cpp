@@ -49,3 +49,8 @@ bool CommandManager::redo() {
     // Implied else
     return false;
 }
+
+void CommandManager::reset() {
+    _commandsIssued.clear();
+    _currentIndex = 0;
+}

@@ -9,7 +9,7 @@ using std::cout;
 using std::endl;
 
 GameInterface::GameInterface() {
-    _hanoiEngine = std::make_unique<HanoiEngine>();
+    _hanoiEngine = std::make_unique<HanoiEngine>(3);
     _commandManager = std::make_unique<CommandManager>();
     lastMenuResult = "";
     done = false;
@@ -54,6 +54,9 @@ int GameInterface::getUserInput() {
 }
 
 void GameInterface::tick() {
+    if (_hanoiEngine->isDone()) {
+        lastMenuResult = "You win!";
+    }
     cout <<
         "Towers of Hanoi" << endl <<
         "============================================================" << endl;
@@ -128,5 +131,16 @@ void GameInterface::redo() {
 }
 
 void GameInterface::reset() {
-
+    int discNumber;
+    cout <<
+        "How many discs would you like in the new game? ";
+    discNumber = this->getUserInput();
+    if (discNumber < 3) {
+        lastMenuResult = "Please choose at least 3 disks";
+        return;
+    }
+    // Implied else
+    _commandManager->reset();
+    _hanoiEngine->reset(discNumber);
+    lastMenuResult = "New game started with " + std::to_string(discNumber) + " discs";
 }
