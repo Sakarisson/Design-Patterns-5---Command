@@ -1,14 +1,17 @@
 #include "GameInterface.h"
+#include "MoveCommand.h"
 
 #include <iostream>
 #include <string>
+#include <memory>
 
+using std::cout;
 using std::endl;
 
 GameInterface::GameInterface() {
     _hanoiEngine = std::make_unique<HanoiEngine>();
     _commandManager = std::make_unique<CommandManager>();
-    lastMenuResult = "Welcome";
+    lastMenuResult = "";
 }
 
 GameInterface::~GameInterface() {
@@ -26,14 +29,19 @@ void GameInterface::showGame() {
 }
 
 void GameInterface::showMenu() {
-    std::cout <<
-        lastMenuResult << endl <<
-        "====================================" << endl <<
+    cout <<
         "1. Replay last game" << endl <<
         "2. Move" << endl <<
         "3. Undo" << endl <<
         "4. Redo" << endl <<
-        "5. Reset" << endl <<
+        "5. Reset" << endl;
+    if (lastMenuResult != "") {
+        cout <<
+            "====================================" << endl <<
+            lastMenuResult << endl <<
+            "====================================" << endl;
+    }
+    cout <<
         "What would you like to do? ";
 }
 
@@ -44,11 +52,11 @@ int GameInterface::getUserInput() {
 }
 
 void GameInterface::tick() {
-    std::cout <<
+    cout <<
         "Towers of Hanoi" << endl <<
         "============================================================" << endl;
     this->showGame();
-    std::cout <<
+    cout <<
         "============================================================" << endl;
     this->showMenu();
     int choice = this->getUserInput();
@@ -69,8 +77,10 @@ void GameInterface::tick() {
         this->reset();
         break;
     default:
-        std::cout << "Invalid choice" << endl;
+        lastMenuResult = "Invalid choice";
+        break;
     }
+    getchar();
     system("cls");
 }
 
@@ -79,7 +89,21 @@ void GameInterface::replay() {
 }
 
 void GameInterface::move() {
-
+    int from, to;
+    cout <<
+        "From: ";
+    std::cin >> from;
+    cout <<
+        "To: ";
+    std::cin >> to;
+    if (1 > from || 3 < from || 1 > to || 3 < to) {
+        lastMenuResult = "Invalid tower. Please pick a number between 1 and 3";
+        return;
+    }
+    // Implied else
+    std::unique_ptr<MoveCommand> gameMove = std::make_unique<MoveCommand>(from - 1, to - 1, _hanoiEngine.get());
+    _commandManager->storeAndExecute(std::move(gameMove));
+    lastMenuResult = "Moved disc from tower " + std::to_string(from) + " to tower " + std::to_string(to);
 }
 
 void GameInterface::undo() {
