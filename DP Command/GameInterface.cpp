@@ -107,11 +107,19 @@ void GameInterface::move() {
 }
 
 void GameInterface::undo() {
-
+    if (_commandManager->undoLast()) {
+        lastMenuResult = "Undid last move";
+    } else {
+        lastMenuResult = "Unable to undo";
+    }
 }
 
 void GameInterface::redo() {
-
+    if (_commandManager->redo()) {
+        lastMenuResult = "Redid last undo";
+    } else {
+        lastMenuResult = "Unable to redo";
+    }
 }
 
 void GameInterface::reset() {
