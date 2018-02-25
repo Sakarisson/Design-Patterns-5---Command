@@ -21,7 +21,6 @@ public:
 
     // Is the game successfully finished?
     bool isDone();
-
 private:
     enum { T1, T2, T3 };
     int iDiscs;
