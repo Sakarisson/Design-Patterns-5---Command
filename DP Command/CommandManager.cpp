@@ -1,6 +1,6 @@
 #include "CommandManager.h"
-
-
+#include <fstream>
+#include <string>
 
 CommandManager::CommandManager() {
 
@@ -8,7 +8,13 @@ CommandManager::CommandManager() {
 
 
 CommandManager::~CommandManager() {
-
+    std::ofstream saveFile;
+    saveFile.open("Hanoi.log");
+    for (auto& command : _commandsIssued) {
+        std::string res = command->toString();
+        saveFile << command->toString() << std::endl;
+    }
+    saveFile.close();
 }
 
 void CommandManager::storeAndExecute(std::unique_ptr<Command> command) {

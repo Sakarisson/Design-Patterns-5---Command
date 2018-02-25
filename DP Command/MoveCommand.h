@@ -10,7 +10,7 @@ public:
     void execute() override;
     bool undoable() override { return true; }
     void undo() override;
-
+    std::string toString() override;
 private:
     int _from;
     int _to;

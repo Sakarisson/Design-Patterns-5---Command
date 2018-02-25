@@ -12,6 +12,7 @@ GameInterface::GameInterface() {
     _hanoiEngine = std::make_unique<HanoiEngine>();
     _commandManager = std::make_unique<CommandManager>();
     lastMenuResult = "";
+    done = false;
 }
 
 GameInterface::~GameInterface() {
@@ -19,7 +20,7 @@ GameInterface::~GameInterface() {
 }
 
 void GameInterface::run() {
-    while (!_hanoiEngine->isDone()) {
+    while (!done) {
         this->tick();
     }
 }
@@ -34,7 +35,8 @@ void GameInterface::showMenu() {
         "2. Move" << endl <<
         "3. Undo" << endl <<
         "4. Redo" << endl <<
-        "5. Reset" << endl;
+        "5. Reset" << endl <<
+        "6. Quit" << endl;
     if (lastMenuResult != "") {
         cout <<
             "====================================" << endl <<
@@ -75,6 +77,9 @@ void GameInterface::tick() {
         break;
     case 5:
         this->reset();
+        break;
+    case 6:
+        done = true;
         break;
     default:
         lastMenuResult = "Invalid choice";

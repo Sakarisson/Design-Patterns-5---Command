@@ -17,3 +17,7 @@ void MoveCommand::execute() {
 void MoveCommand::undo() {
     _hanoiEngine->move(_to, _from);
 }
+
+std::string MoveCommand::toString() {
+    return std::to_string(_from) + " " + std::to_string(_to);
+}
