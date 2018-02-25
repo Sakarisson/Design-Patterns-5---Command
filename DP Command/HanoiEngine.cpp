@@ -39,7 +39,7 @@ void HanoiEngine::show(std::ostream& aStrm) {
                     towerCharacter << towerCharacter <<
                     std::setfill(blankCharacter) << std::setw(iDiscs + minWidth + 1) << "";
             }
-            if (towerNumber < iTowers->size()) {
+            if (towerNumber < 3) {
                 aStrm << separatingCharacter;
             }
         }
