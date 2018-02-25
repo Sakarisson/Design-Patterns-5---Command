@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CommandManager.cpp" />
+    <ClCompile Include="GameInterface.cpp" />
     <ClCompile Include="HanoiEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
@@ -123,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandManager.h" />
+    <ClInclude Include="GameInterface.h" />
     <ClInclude Include="HanoiEngine.h" />
     <ClInclude Include="MoveCommand.h" />
   </ItemGroup>

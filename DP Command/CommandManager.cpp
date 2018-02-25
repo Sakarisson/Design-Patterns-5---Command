@@ -38,5 +38,8 @@ bool CommandManager::redo() {
     if (_currentIndex < _commandsIssued.size() - 1) { // If there exist commands past _currentIndex
         _currentIndex++;
         _commandsIssued[_currentIndex]->execute();
+        return true;
     }
+    // Implied else
+    return false;
 }
