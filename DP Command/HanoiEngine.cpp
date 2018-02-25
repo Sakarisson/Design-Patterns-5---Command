@@ -28,18 +28,15 @@ void HanoiEngine::show(std::ostream& aStrm) {
                     "||" <<
                     std::setfill('=') << std::setw(halfDiskSize) << "" <<
                     std::setfill(' ') << std::setw(blankSpace) << "";
-                if (towerNumber < 3) {
-                    aStrm << "#";
-                }
             }
             else {
                 aStrm <<
                     std::setfill(' ') << std::setw(iDiscs + minWidth + 1) << "" <<
                     "||" <<
                     std::setfill(' ') << std::setw(iDiscs + minWidth + 1) << "";
-                if (towerNumber < 3) {
-                    aStrm << "#";
-                }
+            }
+            if (towerNumber < iTowers->size()) {
+                aStrm << "#";
             }
         }
         aStrm << endl;
