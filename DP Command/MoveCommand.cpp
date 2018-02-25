@@ -1,9 +1,8 @@
 #include "MoveCommand.h"
 
-MoveCommand::MoveCommand() {
-
+MoveCommand::MoveCommand(HanoiEngine* hanoiEngine) {
+    _hanoiEngine = hanoiEngine;
 }
-
 
 MoveCommand::~MoveCommand() {
 
