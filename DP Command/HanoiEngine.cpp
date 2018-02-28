@@ -59,13 +59,10 @@ bool HanoiEngine::move(int aFrom, int aTo) {
     return true;
 }
 
-void HanoiEngine::reset() {
-    iTowers->clear();
-    this->addDiscs();
-}
-
 void HanoiEngine::reset(int aDiscs) {
-    iTowers->clear();
+    for (auto& tower : iTowers) {
+        tower.clear();
+    }
     iDiscs = aDiscs;
     this->addDiscs();
 }

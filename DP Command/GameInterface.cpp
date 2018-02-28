@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <thread>
+#include <chrono>
 
 using std::cout;
 using std::endl;
@@ -29,7 +31,12 @@ void GameInterface::run() {
 }
 
 void GameInterface::showGame() {
+    cout <<
+        "Towers of Hanoi" << endl <<
+        "============================================================" << endl;
     _hanoiEngine->show();
+    cout <<
+        "============================================================" << endl;
 }
 
 void GameInterface::showMenu() {
@@ -62,14 +69,15 @@ void GameInterface::tick() {
     if (_hanoiEngine->isDone()) {
         lastMenuResult = "You win!";
     }
-    cout <<
-        "Towers of Hanoi" << endl <<
-        "============================================================" << endl;
     this->showGame();
-    cout <<
-        "============================================================" << endl;
     this->showMenu();
     int choice = this->getUserInput();
+    if (canReplay && choice != 1) { // Clear log file
+        std::ofstream saveFile;
+        saveFile.open("Hanoi.log");
+        saveFile << "";
+        saveFile.close();
+    }
     switch (choice) {
     case 1:
         this->replay();
@@ -109,7 +117,6 @@ void GameInterface::replay() {
         return;
     }
     // Implied else
-    _hanoiEngine->reset();
     std::string commandType;
     while (saveFile >> commandType) {
         std::unique_ptr<Command> command;
@@ -132,7 +139,12 @@ void GameInterface::replay() {
         if (command != nullptr) {
             _commandManager->storeAndExecute(std::move(command), false);
         }
+        system("cls");
+        showGame();
+        showMenu();
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
+    saveFile.close();
 }
 
 void GameInterface::move() {

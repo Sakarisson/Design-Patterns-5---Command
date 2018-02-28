@@ -17,7 +17,6 @@ public:
     bool move(int aFrom, int aTo);
 
     // Reset the game, start with aDiscs discs
-    void reset();
     void reset(int aDiscs);
 
     // Is the game successfully finished?
